@@ -70,39 +70,41 @@ function drawSmoothCircle(canvas) {
     //                and extend it to get rid
     //                of the aliasing effects at
     //                the border.
-    for(var x=0; x<200; x+=1){
-        for(var y=0; y<200; y+=1){
-        if(Math.sqrt(Math.pow((x-100),2) + Math.pow((y-100),2))<=45){
-            var i = x*4 + y*4*200;
-            img.data[i] = 0;
-            img.data[i + 1] = 255;
-            img.data[i + 2] = 0;
-            img.data[i + 3] = 255;
-              }
-        if(Math.sqrt(Math.pow((x-100),2) + Math.pow((y-100),2))<=55 && Math.sqrt(Math.pow((x-100),2) + Math.pow((y-100),2))>45){
-                var i = x*4 + y*4*200;
-                img.data[i] = 0;
-                img.data[i + 1] = 127;
-                img.data[i + 2] = 0;
-                img.data[i + 3] = 255;
-                }
-        if(Math.sqrt(Math.pow((x-100),2) + Math.pow((y-100),2))<=45 && Math.sqrt(Math.pow((x-100),2) + Math.pow((y-100),2))>=44){
-                 var i = x*4 + y*4*200;
-                img.data[i] = 0;
-                img.data[i + 1] = 191;
-                img.data[i + 2] = 0;
-                img.data[i + 3] = 255;
-          }
-        /*if(Math.sqrt(Math.pow((x-100),2) + Math.pow((y-100),2))<=56 && Math.sqrt(Math.pow((x-100),2) + Math.pow((y-100),2))>=55){
-            var i = x*4 + y*4*200;
-           img.data[i] = 0;
-           img.data[i + 1] = 255;
-           img.data[i + 2] = 0;
-           img.data[i + 3] = 255;
-     }*/
+    for (var x=0; x< 200; x+=1){
+        for (var y=0; y< 200; y+=1){
+        var
+        dist=Math.sqrt(Math.pow((x-100),2)+Math.pow((y-100),2));
+        if (dist<= 45){
+        var i=4*x +4*200*y;
+        img.data[i] = 0;
+        img.data[i + 1] = 255;
+        img.data[i + 2] = 0;
+        img.data[i + 3] = 255;
         }
-    }
-
+        if (dist<=55 && dist>=45){
+        var i=4*x +4*200*y;
+        img.data[i] = 0;
+        img.data[i + 1] = 127;
+        img.data[i + 2] = 0;
+        img.data[i + 3] = 255;
+        }
+        if (dist< 45 && dist>44){
+        var i=4*x +4*200*y;
+        img.data[i] = 0;
+        img.data[i + 1] = 255-64*(dist-44); //color of pixel depends on distance from the center
+        img.data[i + 2] = 0;
+        img.data[i + 3] = 255;
+        }
+        if (dist< 56 && dist>55){
+        var i=4*x +4*200*y;
+        img.data[i] = 255*(dist-55);
+        img.data[i + 1] = 127 + 128*(dist-55);
+        img.data[i + 2] = 255*(dist-55);
+        img.data[i + 3] = 255;
+        }
+        }
+        }
+        
 
     context.putImageData(img, 0, 0);
 }
