@@ -19,8 +19,9 @@ context.fill();
 
 context.beginPath();
 context.arc(140,140, 45, 0, 2 * Math.PI);
-context.fillStyle = 'rgb(0,255,0)'
-context.fill();
+context.lineWidth=10;
+context.strokeStyle='rgb(0,255,0)'
+context.stroke();
 
 
 
