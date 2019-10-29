@@ -70,21 +70,49 @@ function bresenham(image, line) {
     //              on what to do next: 
 
     // compute deltas and update directions
+    
+    var del_x = x1-x0;
+    var del_y = y1-y0;
+    var m = del_y/del_x;
+    var D = (2*del_y) - del_x;
 
-
-
+    var x = x0;
+    var y = y0;
+    var end = x0;
+       
     // set initial coordinates
-
-
+  
+    if(x0 > x1){
+        x = x1;
+        y = y1;
+        end = x0;
+    }
+    else {
+        x =x0;
+        y= y0;
+        end = x1;
+    }
+  
+   var pixel = new Point(x,y); 
+  
 
     // start loop to set nPixels 
-    var nPixels = 0; // think about how many pixels need to be set - zero is not correct ;)
+    var nPixels = end; // think about how many pixels need to be set - zero is not correct ;)
     for (var i = 0; i < nPixels; ++i) {
         // set pixel using the helper function setPixelS()
-
-
+       
+        setPixelS(image,pixel,image.Color);
         // update error
-
+        x = x + 1;
+        if(D < 0)
+        {
+        D = D + 2 * dy;
+        }
+        else
+        {
+        y = y + 1;
+        D = D + 2 * (del_y - del_x);
+        }
 
         // update coordinates depending on the error
 
