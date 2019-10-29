@@ -93,17 +93,19 @@ function bresenham(image, line) {
         end = x1;
     }
   
-   var pixel = new Point(x,y); 
+
   
 
     // start loop to set nPixels 
-    var nPixels = end; // think about how many pixels need to be set - zero is not correct ;)
+    var nPixels = Math.abs(x1-x0); // think about how many pixels need to be set - zero is not correct ;)
     for (var i = 0; i < nPixels; ++i) {
         // set pixel using the helper function setPixelS()
-       
-        setPixelS(image,pixel,image.Color);
+		   var pixel = new Point(x,y); 
+               setPixelS(image,pixel,new Color(255,0,0), pixelScale);
         // update error
         x = x + 1;
+		
+		//Needs to be modified and checked!
         if(D < 0)
         {
         D = D + 2 * dy;
