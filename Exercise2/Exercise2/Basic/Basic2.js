@@ -5,7 +5,7 @@
 ///////////////////////////
 
 // seed point
-var seedPoint = new Point(50, 50);
+var seedPoint = new Point(50,50);
 
 //////////////
 //// gui  ////
@@ -21,8 +21,8 @@ function onMouseDownCanvas2(e) {
     // set new seed point
     seedPoint.x = Math.floor(x);
     seedPoint.y = Math.floor(y);
-
-    // rerender image
+	
+	// rerender image
     RenderCanvas2();
 }
 
@@ -37,23 +37,29 @@ function floodFill4(image, pixel, fillColor) {
     //                  variable "fillColor" denotes the color
     //                  for both the area and the border.
 
-    // get the color at pixel location, use getPixel()
+	
+	//Check if pixel lies within the image
+	if (pixel.x >= 0 && pixel.y >= 0 && pixel.x < image.width && pixel.y < image.height) {
+		
+	//get pixel color
+		var pix_col = getPixel(image,pixel);
+	
+	//Compare color of pixel with fill color, if same terminate recursion
+		if (pix_col.r == fillColor.r && pix_col.g == fillColor.g && pix_col.b == fillColor.b) {
+		return;
+		}
+	
+	//set pixel color to fillcolor
+		setPixel(image,pixel,fillColor);
 
-
-
-    // base case 
-    //       - color channels of the current color are equal to the color channels of the fillColor
-    //       - pixel position is out of range
-
-
-
-    // set pixel color
-
-
-
-    // start recursion (4 neighboring pixels)
-
-
+	//Start Recursion for its 4 neighbours
+		floodFill4(image,new Point(pixel.x+1,pixel.y),fillColor);
+		floodFill4(image,new Point(pixel.x-1,pixel.y),fillColor);
+		floodFill4(image,new Point(pixel.x,pixel.y+1),fillColor);
+		floodFill4(image,new Point(pixel.x,pixel.y-1),fillColor);
+		
+		
+    }
 
 }
 
