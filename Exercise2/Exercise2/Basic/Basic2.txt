@@ -1,6 +1,9 @@
 Pro:
-- 
+- A Simple algorithm to implement
+- Provides correct results 
 
 Cons:
-- 
-- 
+- Deep recursion, it makes the algorithm extremely inefficient and reqires a large stack for a larger polygon
+- Only works for unique colors for multiple opbjects
+- Shading is not possible with this algorithm
+- Selecting seed position can be difficult for polygons where centre point of the polygon does not fall inside it
