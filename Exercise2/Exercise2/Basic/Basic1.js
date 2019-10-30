@@ -71,55 +71,92 @@ function bresenham(image, line) {
 
     // compute deltas and update directions
     
-    var del_x = x1-x0;
-    var del_y = y1-y0;
+    var del_x = Math.abs(x1-x0);
+    var del_y = Math.abs(y1-y0);
     var m = del_y/del_x;
     var D = (2*del_y) - del_x;
-
+    var DD = (2*del_x)- del_y;
     var x = x0;
     var y = y0;
     var end = x0;
        
     // set initial coordinates
-  
-    if(x0 > x1){
-        x = x1;
-        y = y1;
-        end = x0;
-    }
-    else {
-        x =x0;
-        y= y0;
+  if(del_y <= del_x){
+    if(del_x >= 0){
+        x = x0;
+        y = y0;
         end = x1;
     }
+    else {
+        x =x1;
+        y= y1;
+        end = x0;
+    }
   
-
+    var pixel = new Point(x,y); 
+    setPixelS(image,pixel,new Color(0,0,0), pixelScale);
   
 
     // start loop to set nPixels 
-    var nPixels = Math.abs(x1-x0); // think about how many pixels need to be set - zero is not correct ;)
-    for (var i = 0; i < nPixels; ++i) {
+    var nPixels = end; // think about how many pixels need to be set - zero is not correct ;)
+    for (var i = 0; x < nPixels; ++i) {
         // set pixel using the helper function setPixelS()
-		   var pixel = new Point(x,y); 
-               setPixelS(image,pixel,new Color(255,0,0), pixelScale);
+        var pixel = new Point(x,y); 
+        setPixelS(image,pixel,new Color(0,0,0), pixelScale);
+
         // update error
         x = x + 1;
 		
 		//Needs to be modified and checked!
         if(D < 0)
         {
-        D = D + 2 * dy;
+            D = D + 2 * dy;
         }
         else
-        {
-        y = y + 1;
-        D = D + 2 * (del_y - del_x);
+        {if ((del_x <0 && del_y<0)||(del_x > 0 && del_y >0) ){
+            y = y + 1;
+        }
+        else{ y = y-1 ;}
+
+             D = D + 2 * (del_y - del_x);
         }
 
-        // update coordinates depending on the error
-
-
+       // update coordinates depending on the error
+      
     }
+  }
+else{
+    if (del_y >= 0) {
+        x = x0; y = y0; end = y1;
+    } else { 
+        x = x1; y = y1; end = y0;
+    }
+
+    var pixel = new Point(x,y); 
+    setPixelS(image,pixel,new Color(0,0,0), pixelScale);
+
+    for (i = 0; y < end; i++) {
+        y = y + 1;
+        var pixel = new Point(x,y); 
+        setPixelS(image,pixel,new Color(0,0,0), pixelScale);
+       
+        if (DD <= 0) {
+            DD = DD + 2 * dx1;
+        } else {
+            if ((del_x < 0 && del_y<0) || (del_x > 0 && del_y > 0)) {
+                x = x + 1;
+            } else {
+                x = x - 1;
+            }
+            DD = DD + 2 * (del_x - del_y);
+        }
+
+       
+       
+    }
+}
+
+
 }
 
 
