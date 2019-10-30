@@ -71,17 +71,19 @@ function bresenham(image, line) {
 
     // compute deltas and update directions
     
-    var del_x = Math.abs(x1-x0);
-    var del_y = Math.abs(y1-y0);
+    var del_x = x1-x0;
+    var del_x1 = Math.abs(del_x);
+    var del_y = y1-y0;
+    var del_y1 = Math.abs(del_y);
     var m = del_y/del_x;
-    var D = (2*del_y) - del_x;
-    var DD = (2*del_x)- del_y;
+    var D = (2*del_y1) - del_x1;
+    var DD = (2*del_x1)- del_y1;
     var x = x0;
     var y = y0;
     var end = x0;
        
     // set initial coordinates
-  if(del_y <= del_x){
+  if(del_y1 <= del_x1){
     if(del_x >= 0){
         x = x0;
         y = y0;
@@ -96,7 +98,6 @@ function bresenham(image, line) {
     var pixel = new Point(x,y); 
     setPixelS(image,pixel,new Color(0,0,0), pixelScale);
   
-
     // start loop to set nPixels 
     var nPixels = end; // think about how many pixels need to be set - zero is not correct ;)
     for (var i = 0; x < nPixels; ++i) {
@@ -110,7 +111,7 @@ function bresenham(image, line) {
 		//Needs to be modified and checked!
         if(D < 0)
         {
-            D = D + 2 * dy;
+            D = D + 2 * del_y1;
         }
         else
         {if ((del_x <0 && del_y<0)||(del_x > 0 && del_y >0) ){
@@ -118,7 +119,7 @@ function bresenham(image, line) {
         }
         else{ y = y-1 ;}
 
-             D = D + 2 * (del_y - del_x);
+             D = D + 2 * (del_y1 - del_x1);
         }
 
        // update coordinates depending on the error
@@ -141,14 +142,14 @@ else{
         setPixelS(image,pixel,new Color(0,0,0), pixelScale);
        
         if (DD <= 0) {
-            DD = DD + 2 * dx1;
+            DD = DD + 2 * del_x1;
         } else {
             if ((del_x < 0 && del_y<0) || (del_x > 0 && del_y > 0)) {
                 x = x + 1;
             } else {
                 x = x - 1;
             }
-            DD = DD + 2 * (del_x - del_y);
+            DD = DD + 2 * (del_x1 - del_y1);
         }
 
        
