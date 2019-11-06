@@ -25,10 +25,12 @@ void main(void)
 
 	float dist = sqrt(dot(uv,uv));
 	if(dist>=radius) {discard ;}
-	float alpha =clamp(smoothMargin,r-smoothMargin,r);
-
+	gl_FragColor = vec4(1.0, 85.0 / 255.0, 0.0,1.0);	
 	
-	gl_FragColor = vec4(1.0, 85.0 / 255.0, 0.0,alpha);
+	float alpha =smoothstep(radius,radius-smoothMargin,dist);
+		gl_FragColor = vec4(1.0, 85.0 / 255.0, 0.0,alpha);
+	
+	
 	
 	
 
