@@ -38,7 +38,7 @@ function LinearTransformation(linearPart) {
     this.A = linearPart;
 }
 
-function ApplyLinearTransformation(linearTransf, point) {
+function ApplyLinearTransformation(,m, point) {
     return new Point(linearTransf.A[0] * point.x + linearTransf.A[1] * point.y,
                         linearTransf.A[2] * point.x + linearTransf.A[3] * point.y)
 }

@@ -16,10 +16,11 @@ function webGLStart(canvas) {
     //              be as follows:
     //              [p0x,p0y,c0x,c0y,c0z,p1x...
 
-    var vertices = [-.5, -.5,
-                     .5, -.5,
-                     0, .5];
+    var vertices = [-0.5,- 0.5,1,0,0,
+                     .5, -.5,0,1,0,
+                     0, .5,0,0,1];
 
+   
 
     var indices = [0, 1, 2];
 
@@ -31,6 +32,7 @@ function webGLStart(canvas) {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 
+       
 
     var fragmentShader = getShader(gl, "shaderWireFrame-fs");
     var vertexShader = getShader(gl, "shaderWireFrame-vs");
@@ -48,6 +50,7 @@ function webGLStart(canvas) {
 
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+ 
 
 
 
@@ -57,13 +60,18 @@ function webGLStart(canvas) {
     //              set offset and stride (in bytes!).
     //              BEWARE: You also have to change the stride
     //              for the position attribute!
-
+    var BYTESIZE = vertices.BYTES_PER_ELEMENT;
     var attrVertexPosition = gl.getAttribLocation(shaderProgram, "vVertex");
+    gl.vertexAttribPointer(attrVertexPosition, 3, gl.FLOAT, false, 20, 0);
     gl.enableVertexAttribArray(attrVertexPosition);
-    gl.vertexAttribPointer(attrVertexPosition, 2, gl.FLOAT, false, 8, 0);
 
-    var attrVertexColor;
-
-
+    var attrVertexColor = gl.getAttribLocation(shaderProgram, "color");
+    gl.vertexAttribPointer(attrVertexColor,3,gl.FLOAT,false,20,8);
+    gl.enableVertexAttribArray(attrVertexColor);
+     
+    gl.clearColor(1,1,1,1);
+    gl.enable(gl.DEPTH_TEST);
+    gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
 }
+	

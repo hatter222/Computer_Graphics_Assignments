@@ -21,15 +21,15 @@ void main(void)
 
 	vec2 uv = (gl_FragCoord.xy/size-0.5) ;
 	
-	float radius = r/2.0;
+	float radius = r*0.5;
 
 	float dist = sqrt(dot(uv,uv));
 	if(dist>=radius) {discard ;}
-float alpha =clamp(r-smoothMargin,smoothMargin,r);
+	float alpha =clamp(smoothMargin,r-smoothMargin,r);
 
 	
-	gl_FragColor = vec4(1.0, 85.0 / 255.0, 0.0,1.0);
-	gl_FragColor.a = alpha;
+	gl_FragColor = vec4(1.0, 85.0 / 255.0, 0.0,alpha);
+	
 	
 
 	
