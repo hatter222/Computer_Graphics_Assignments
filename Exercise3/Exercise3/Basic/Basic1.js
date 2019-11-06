@@ -80,9 +80,11 @@ for(var t=0;t<=2*Math.PI;t=t+Math.PI/slices){
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 
 //initialise color buffer
-    var cbo = gl.createBuffer();
+/*  
+  var cbo = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, cbo);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+*/
 	
 //Create vertex and fragment shader object
     var vertexShader = getShader(gl, "shader-vs");
@@ -118,8 +120,8 @@ for(var t=0;t<=2*Math.PI;t=t+Math.PI/slices){
 // point an attribute to the currently bound VBO
     gl.vertexAttribPointer(attrVertexPosition, 2, gl.FLOAT, false, 8, 0);
 
-
-	/*gl.bindBuffer(gl.ARRAY_BUFFER, cbo);
+/*
+	gl.bindBuffer(gl.ARRAY_BUFFER, cbo);
 
     var attrVertexColor =  gl.getAttribLocation(shaderProgram, "vColor");;
 	gl.enableVertexAttribArray(attrVertexColor);
