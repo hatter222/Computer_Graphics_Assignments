@@ -19,8 +19,9 @@ void main(void)
 	 //				[r-smoothMargin, r] by computing an appropriate alpha value.
 	 //				Change the following line!gl_FragColor = vec4(1.0, 85.0 / 255.0, 0.0,1.0);
 
+
 	vec2 uv = (gl_FragCoord.xy/size-0.5) ;
-	
+
 	float radius = r*0.5;
 
 	float dist = sqrt(dot(uv,uv));
