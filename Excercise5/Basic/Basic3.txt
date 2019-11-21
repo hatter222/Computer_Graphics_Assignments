@@ -1,0 +1,12 @@
+for Phong Shading there is a intense specular highlights in the center and fall off gradually.
+To a ray of light , it bounces of the micro-geometry in mirror-like fashion
+for the very small no of samples , not much of highlights is seen .
+
+for flat shading ,specular part of the illumination is very nearly constant over the entire facet.
+
+for Gouraud shading , Specular highlights will appear but jumps from vertex to vertex when new line segment is added. 
+The specular highlight is quite visisble around the vertex part
+
+
+the problem is not occuring in the phong shading as it produces highlights which are much less dependent on the underlying polygons 
+involving the interpolation of the surface normal and the evaluation of the intensity function for each pixel.
