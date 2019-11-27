@@ -52,10 +52,21 @@ function MipMap(texture1D, nLevelMax) {
     //              the texture to be a power of 2.
     for (var l = 1; l < this.nLevel; ++l) {
         // 1. Compute the texture dimension of level 'l'.
-
-        // 2. Allocate an array with the right dimension (see code for the 0th level above).
-
-        // 3. Compute the color values using a boxfilter.
+        // 2. allocate array with the right dimension
+        // 3. compute the color values of the pixel using a boxfilter
+        texDim = Math.round(Math.sqrt(texDim));    
+        this.texLevels[l] = new Array(texDim);
+        
+        	var a = 0;
+        	var b = 1;
+        	for(var i = 0; i < texDim; ++i)
+        	{
+        	this.texLevels[l][i] = vec3.create();
+        	vec3.add(this.texLevels[l][i],this.texLevels[l-1][a],this.texLevels[l-1][a + 1]);
+        	vec3.scale(this.texLevels[l][i],this.texLevels[l][i],1.0/2.0);
+    		a = a + 2;
+    		}
+        
 
     }
     
@@ -104,20 +115,23 @@ var Basic1a = function () {
         
         // TODO 6.1a)   Implement bilinear interpolation of the texture stored in the global variable "texture"
         // 1. Given the current uv coordinates, determine the uv coordinates of the 4 surrounding pixels (use Math.floor / Math.ceil).
-
-        // 2. Compute the linear indices of the surrounding pixels (e.g. idx = texDimU * v + u;).
-
-        // 3. Interpolate linearly in u (use interpolateColor()). 
-        //    You can access the color at index 'idx' using texture[idx].
-
-        // 4. Interpolate linearly in v (use interpolateColor()).
-
-        // replace this line
-        return [0.7, 0.7, 0.7];
-        
-        
-
-        return result;
+        // 2. compute the linear indices of the surrounding pixels (e.g. idx = texDimU * v + u;)
+        // 3. interpolate linearly in u (use interpolateColor())
+         // 4. interpolate linearly in v (use interpolateColor())
+        var above = vec2.fromValues(Math.ceil(u),  Math.floor(v));
+		var below = vec2.fromValues(Math.floor(u),  Math.floor(v));
+		var left  = vec2.fromValues(Math.floor(u) , Math.ceil(v));
+		var right = vec2.fromValues(Math.ceil(u) , Math.ceil(v));  
+		var idx_above = Math.round(texDimU * above[1] + above[0]);
+		var idx_below = Math.round(texDimU * below[1] + below[0]);
+		var idx_left  = Math.round(texDimU *  left[1] +  left[0]);
+		var idx_right = Math.round(texDimU * right[1] + right[0]);     
+        var alpha_u = u - Math.floor(u);
+		var color_u = interpolateColor(texture[idx_left],texture[idx_right], alpha_u);
+		var color_v = interpolateColor(texture[idx_below],texture[idx_above], alpha_u);
+        var alpha_v = v - Math.floor(v)
+        return interpolateColor(color_v,color_u,alpha_v);
+           
     }
 
     function Render() {
@@ -318,16 +332,20 @@ var Basic1b = function () {
             // TODO 6.1b)   Determine the appropriate level based on the footprint of the pixel.
             // 1. Use pixelBottom_proj[2] and pixelTop_proj[2] to determine the footprint of the pixel on the texture.
                 
-
+            var footprint = pixelTop_proj[2] - pixelBottom_proj[2]; 
             // 2. Determine the mipmap level where the texel size is larger than the pixel footprint.
             //    Use the mipmap pyramid stored in 'mipmap'.
             //    The texel size of the coarsest level is defined to be 1.
 
-
-            // replace this line
-            var level = 0;
-            
-
+            for (var j = 0; j < mipmap.nLevel; ++j)
+       		{
+       		if(1/mipmap.texLevels[j].length > footprint)
+       		{
+       		level = j;
+       		break;
+       		}
+       		}
+          
             // read color from the mip map pyramid
             var color = mipmap.sampleNearestNeighbor(pixelCenter_proj[2], level);
 
