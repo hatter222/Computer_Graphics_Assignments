@@ -11,13 +11,13 @@ uniform bool cobblestone;
 //				texture as a "uniform sampler2D".
 //				Find out which name it should 
 //				have from Basic3.js!
-
+uniform sampler2D checkerboardTexture;
 
 // TODO 6.3b):	Define the cobblestone 
 //				texture as a "uniform sampler2D".
 //				Find out which name it should 
 //				have from Basic3.js!
-
+uniform sampler2D cobblestoneTexture;
 
 varying vec3 normal;
 varying vec3 position;
@@ -25,7 +25,7 @@ varying vec3 position;
 // TODO 6.3a):	Define a varying variable
 //				representing the texture
 //				coordinates.
-
+varying vec2 tex_coord;
 
 
 void main(void) {
@@ -47,7 +47,13 @@ void main(void) {
 		//				the texture coordinates have to be
 		//				scaled accordingly. Replace the following
 		//				dummy line.
-		n = normal;
+		
+		vec3 normala = texture2D(cobblestoneTexture, tex_coord/planeSize).rgb;
+		normala = normalize(normala * 2.0 - 1.0);  
+
+		n = normala;
+		
+		color = vec3(texture2D(cobblestoneTexture, tex_coord/planeSize));
 		
 	} else {
 		
@@ -56,7 +62,8 @@ void main(void) {
 		//				using the function texture2D() and
 		//				the texture coordinates. Replace the
 		//				following dummy line.
-		color = vec3(0.5, 0.5, 0.5);
+		
+		color = vec3(texture2D(checkerboardTexture, tex_coord));
 		
 	}
 	
