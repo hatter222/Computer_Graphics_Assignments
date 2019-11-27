@@ -104,8 +104,19 @@ var Basic2_1 = function () {
             // Project triangle (Use the helper functions matrixVectorProduct and dehomogenize defined above.).
             // Then render the projected triangle instead of the original triangle!
             // Replace this dummy line!
-            drawTriangle(context, canvasWidth, canvasHeight, triangle, ["A'", "B'", "C'"]);
-            
+			var triangle_f=[[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]];
+			
+			for (var i = 0; i < 3; ++i)
+			{
+				var v = [triangle[i][0],triangle[i][1],triangle[i][2],0.0];
+				var proj_triangle = matrixVectorProduct(M,v);
+				var dehom_triangle = dehomogenize(proj_triangle);
+				triangle_f[i][0] = dehom_triangle[0];
+				triangle_f[i][1] = dehom_triangle[1];
+				triangle_f[i][2] = dehom_triangle[2];
+			}
+            drawTriangle(context, canvasWidth, canvasHeight, triangle_f, ["A'", "B'", "C'"]);
+		//	drawTriangle(context, canvasWidth, canvasHeight, triangle, ["A", "B", "C"]);
             
 
             // draw axis
@@ -139,11 +150,29 @@ var Basic2_2 = function () {
             
             // TODO 6.2
             // 1. Project the triangle.
+			var triangle_f=[[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]];
+			
+			for (var i = 0; i < 3; ++i)
+			{
+				var v = [triangle[i][0],triangle[i][1],triangle[i][2],0.0];
+				var proj_triangle = matrixVectorProduct(M,v);
+				var dehom_triangle = dehomogenize(proj_triangle);
+				triangle_f[i][0] = dehom_triangle[0];
+				triangle_f[i][1] = dehom_triangle[1];
+				triangle_f[i][2] = dehom_triangle[2];
+			}
+            drawTriangle(context, canvasWidth, canvasHeight, triangle_f, ["A'", "B'", "C'"]);
 
             // 2. Compute the midpoints of the edges (Use the helper function midPoint defined above!)
             //    and store them in another triangle.
-
+			
+			var triangle_m = [[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]];
+			triangle_m[0]=midPoint(triangle_f[0],triangle_f[1]);
+			triangle_m[1]=midPoint(triangle_f[1],triangle_f[2]);
+			triangle_m[2]=midPoint(triangle_f[2],triangle_f[0]);
+			
             // 3. Draw the triangles (Leave last argument undefined for inner triangle!).
+            drawTriangle(context, canvasWidth, canvasHeight, triangle_m,);
             
             
 
@@ -184,13 +213,46 @@ var Basic2_3 = function () {
            
             // TODO 6.2
             // 1. Project the triangle and store it in homogeneous coordinates.
-
+			var triangle_f=[[0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0]];
+			var triangle_p=[[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]];
+			
+			for (var i = 0; i < 3; ++i)
+			{
+				var v = [triangle[i][0],triangle[i][1],triangle[i][2],0.0];
+				var proj_triangle = matrixVectorProduct(M,v);
+				var dehom_triangle = dehomogenize(proj_triangle);
+				triangle_f[i][0] = proj_triangle[0];
+				triangle_f[i][1] = proj_triangle[1];
+				triangle_f[i][2] = proj_triangle[2];
+				triangle_f[i][3] = proj_triangle[3];
+				
+				triangle_p[i][0] = dehom_triangle[0];
+				triangle_p[i][1] = dehom_triangle[1];
+				triangle_p[i][2] = dehom_triangle[2];
+				
+			}
+			drawTriangle(context, canvasWidth, canvasHeight, triangle_p, ["A'", "B'", "C'"]);
+			  
             // 2. Compute the mid points, but this time in homogeneous coordinates (Make use of midPoint()!).
-
+			var triangle_m = [[0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0]];
+			triangle_m[0]=midPoint(triangle_f[0],triangle_f[1]);
+			triangle_m[1]=midPoint(triangle_f[1],triangle_f[2]);
+			triangle_m[2]=midPoint(triangle_f[2],triangle_f[0]);
+			
             // 3. Dehomogenize the points.
-
+			var triangle_d=[[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]];
+			
+			for (var i = 0; i < 3; ++i)
+			{
+				var v = [triangle_m[i][0],triangle_m[i][1],triangle_m[i][2],triangle_m[i][3]];
+				var dehom_triangle = dehomogenize(v);
+				triangle_d[i][0] = dehom_triangle[0];
+				triangle_d[i][1] = dehom_triangle[1];
+				triangle_d[i][2] = dehom_triangle[2];
+			}
+			
             // 4. Draw the triangles (Leave last argument undefined for inner triangle!).
-            
+            drawTriangle(context, canvasWidth, canvasHeight, triangle_d,);
             
 
             // draw axis
