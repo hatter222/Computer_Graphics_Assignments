@@ -1,0 +1,3 @@
+z-fighting  occurs when there is a insuffucuent precision in the depth buffer.
+
+when the distance between near and far plane is increased , then occurs the z-fighting.

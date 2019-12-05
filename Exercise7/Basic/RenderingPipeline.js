@@ -219,11 +219,12 @@ RenderingPipeline.prototype.LineCulling = function (a, b) {
     //              this.culling: 0 = false, 1 = backface culling, -1 = frontface culling
     //              The result can best be seen in the canonical volume.
      // Change this line: At the moment, nothing is culled.
-     vec3.scale(a,a,1/a[2]);
-     vec3.scale(b,b,1/b[2]);
      var register = a[0] - b[0];
 
-     if(this.culling == 0) return false;
+     
+     if(this.culling == 0) 
+        {return false;}
+
      else if (this.culling == 1)
      { 
          if (register < -0.001) return false;
